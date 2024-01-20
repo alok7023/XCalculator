@@ -40,7 +40,11 @@ function App() {
   const handleButtonClick = (number) => {
     try {
       if (number === "=") {
-        calculateResult();
+        if (!inputValue.trim()) {
+          setResult("Error");
+        } else {
+          calculateResult();
+        }
       } else if (number === "C") {
         clearDisplay();
       } else {
