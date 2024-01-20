@@ -1,5 +1,5 @@
-import {useState, useEffect} from "react";
-import './App.css';
+import { useState, useEffect } from "react";
+import "./App.css";
 
 function App() {
   const [inputValue, setInputValue] = useState("");
@@ -20,30 +20,36 @@ function App() {
     "C",
     "0",
     "=",
-    "/"
+    "/",
   ];
   const calculateResult = () => {
     try {
       const calculateResult = eval(inputValue);
-      setResult(calculateResult);
+      if (isNaN(calculateResult)) setResult("NaN");
+      else if (calculateResult === Infinity) setResult("Infinity");
+      else setResult(calculateResult);
     } catch (e) {
       setResult("Error");
     }
-  }
+  };
 
   const clearDisplay = () => {
     setInputValue("");
     setResult("");
-  }
+  };
   const handleButtonClick = (number) => {
-    if (number === "=") {
-      calculateResult();
-    } else if (number === "C") {
-      clearDisplay();
-    } else {
-      setInputValue((prev) => prev + number);
+    try {
+      if (number === "=") {
+        calculateResult();
+      } else if (number === "C") {
+        clearDisplay();
+      } else {
+        setInputValue((prev) => prev + number);
+      }
+    } catch (error) {
+      setResult("Error");
     }
-  }
+  };
 
   useEffect(() => {
     const handleKeyDown = (event) => {
@@ -70,9 +76,9 @@ function App() {
         readOnly
       />
       <h3>Result : {result || "0"}</h3>
-      <div className='calc_btn'>
-        {buttons.map((number,i) => (
-          <button key = {i} onClick={() => handleButtonClick(number)}>
+      <div className="calc_btn">
+        {buttons.map((number, i) => (
+          <button key={i} onClick={() => handleButtonClick(number)}>
             {number}
           </button>
         ))}
